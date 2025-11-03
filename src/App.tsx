@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Documents from "./pages/Documents";
 import Upload from "./pages/Upload";
 import Cases from "./pages/Cases";
+import CaseDetail from "./pages/CaseDetail";
 import Subjects from "./pages/Subjects";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/documents" element={<Documents />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/cases" element={<Cases />} />
+            <Route path="/cases/:caseId" element={<CaseDetail />} />
             <Route path="/subjects" element={<Subjects />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/help" element={<Help />} />
