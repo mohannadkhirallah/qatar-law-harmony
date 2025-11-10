@@ -1,0 +1,245 @@
+{
+  "id": "1",
+  "caseType": "contradiction",
+  "status": "under_review",
+  "flaggedDate": "2024-01-15T08:30:00Z",
+  "assignedTo": "Fatima Al-Thani",
+  "severity": "high",
+  "subject": {
+    "id": "1",
+    "nameEn": "Economic Legislation",
+    "nameAr": "التشريعات الاقتصادية"
+  },
+  "documents": [
+    {
+      "id": "1",
+      "lawNumber": "7",
+      "year": 2014,
+      "title": "Commercial Companies Law",
+      "jurisdiction": "Qatar",
+      "articles": [
+        {
+          "id": "art-1-1",
+          "articleNumber": "215",
+          "clauseText": "A limited liability company may be established by one or more natural or juridical persons who shall not be liable for the company's obligations except to the extent of the capital that they have subscribed to. The company's capital shall not be less than QAR 200,000.",
+          "effectiveDate": "2014-07-01",
+          "version": "1.0"
+        },
+        {
+          "id": "art-1-2",
+          "articleNumber": "216",
+          "clauseText": "The capital of a limited liability company shall be divided into equal shares. Each partner shall have shares proportionate to his contribution to the capital.",
+          "effectiveDate": "2014-07-01",
+          "version": "1.0"
+        }
+      ],
+      "flaggedArticles": ["art-1-1"]
+    },
+    {
+      "id": "2",
+      "lawNumber": "9",
+      "year": 2002,
+      "title": "Companies Law (Repealed)",
+      "jurisdiction": "Qatar",
+      "articles": [
+        {
+          "id": "art-2-1",
+          "articleNumber": "89",
+          "clauseText": "A limited liability company may be established by not less than two and not more than fifty partners. The partners' liability shall be limited to their shares in the capital. The minimum capital required is QAR 100,000.",
+          "effectiveDate": "2002-03-15",
+          "version": "1.0"
+        },
+        {
+          "id": "art-2-2",
+          "articleNumber": "90",
+          "clauseText": "Each partner in a limited liability company shall have one or more shares in the capital, which shall be of equal value.",
+          "effectiveDate": "2002-03-15",
+          "version": "1.0"
+        }
+      ],
+      "flaggedArticles": ["art-2-1"]
+    }
+  ],
+  "aiAnalysis": {
+    "detectionMethod": "Hybrid NLP + Semantic Similarity Analysis",
+    "confidence": 87,
+    "textSimilarity": 72,
+    "semanticOverlap": 84,
+    "logicalInconsistency": true,
+    "keyFindings": [
+      "Contradictory minimum partner requirements: Law 7/2014 permits single-member LLCs, while Law 9/2002 requires 2-50 partners",
+      "Conflicting minimum capital requirements: QAR 200,000 (2014) vs QAR 100,000 (2002)",
+      "Different jurisdictional scope: 2014 law applies to QFC and mainland, 2002 law was mainland-only",
+      "Terminology divergence: 'juridical persons' (2014) vs 'partners' (2002) creates interpretation ambiguity",
+      "Temporal precedence suggests Law 7/2014 should supersede, but explicit repeal clause for Article 89 is missing"
+    ],
+    "legalPrinciples": [
+      "Lex Posterior (Later law prevails)",
+      "Lex Specialis (Specific law prevails over general)",
+      "Temporal Precedence Doctrine",
+      "Express vs Implied Repeal"
+    ]
+  },
+  "impactAnalysis": {
+    "affectedAgencies": [
+      {
+        "name": "Ministry of Commerce and Industry (MOCI)",
+        "role": "Company registration and commercial licensing authority",
+        "impact": "high"
+      },
+      {
+        "name": "Qatar Financial Centre (QFC)",
+        "role": "Regulator for financial free zone entities",
+        "impact": "high"
+      },
+      {
+        "name": "Ministry of Justice",
+        "role": "Legal framework oversight and dispute resolution",
+        "impact": "medium"
+      }
+    ],
+    "affectedStakeholders": [
+      {
+        "category": "New Business Incorporators",
+        "description": "Entrepreneurs establishing LLCs face uncertainty regarding single-member eligibility and minimum capital requirements, potentially delaying incorporation timelines by 2-4 weeks.",
+        "impactLevel": "high"
+      },
+      {
+        "category": "Legal Practitioners & Corporate Lawyers",
+        "description": "Lawyers advising on corporate structuring must navigate conflicting provisions, increasing legal opinion liability and consultation time by approximately 30%.",
+        "impactLevel": "high"
+      },
+      {
+        "category": "Existing Limited Liability Companies",
+        "description": "Companies established under 2002 law with 2-5 partners may face compliance uncertainty if restructuring or seeking amendments to articles of association.",
+        "impactLevel": "medium"
+      },
+      {
+        "category": "Courts and Judicial System",
+        "description": "Judges handling commercial disputes must determine applicable law, creating potential for inconsistent rulings across different circuits.",
+        "impactLevel": "medium"
+      }
+    ],
+    "consequences": [
+      {
+        "type": "compliance",
+        "description": "Regulatory uncertainty creates compliance risk for 1,200+ newly registered LLCs annually. Businesses may inadvertently violate capital or ownership structure requirements, exposing them to administrative penalties (QAR 10,000-50,000) and potential dissolution orders.",
+        "severity": "high"
+      },
+      {
+        "type": "litigation",
+        "description": "Estimated 45-60 commercial litigation cases annually may cite this contradiction in disputes over LLC validity, shareholder rights, or regulatory penalties. Average case duration: 18-24 months, with legal costs of QAR 80,000-150,000 per case.",
+        "severity": "high"
+      },
+      {
+        "type": "financial",
+        "description": "Economic impact includes: (1) Delayed market entry for 200-300 businesses annually (estimated GDP impact: QAR 15-25M); (2) Increased legal consultation costs (QAR 5-8M annually across business sector); (3) Potential for rejected applications requiring re-submission with higher capital.",
+        "severity": "medium"
+      },
+      {
+        "type": "operational",
+        "description": "MOCI registration officers face processing delays due to need for legal review of borderline cases. Backlog increase of 15-20% in LLC registration queue (current average: 7-10 business days, projected: 10-14 days).",
+        "severity": "medium"
+      }
+    ],
+    "riskAssessment": {
+      "complianceRisk": 85,
+      "litigationRisk": 72,
+      "operationalRisk": 68
+    }
+  },
+  "recommendation": {
+    "applicableLaw": {
+      "lawNumber": "7",
+      "year": 2014,
+      "title": "Commercial Companies Law",
+      "articles": ["215", "216"],
+      "rationale": "Law 7/2014 should be applied as the governing statute under the principle of lex posterior (later law prevails). The 2014 law explicitly modernizes LLC regulations to align with GCC commercial framework and Qatar National Vision 2030 economic diversification goals. Article 215 permits single-member LLCs, reflecting contemporary international best practice and supporting entrepreneurship. The higher minimum capital (QAR 200,000) provides enhanced creditor protection."
+    },
+    "legalBasis": [
+      {
+        "principle": "Lex Posterior Derogat Priori (Later Law Repeals Earlier Law)",
+        "description": "Under Article 2 of the Qatari Civil Code, when two laws govern the same subject matter, the later-enacted law implicitly repeals conflicting provisions of the earlier law, unless the legislature expressly preserves the earlier provision. Law 7/2014 was enacted 12 years after Law 9/2002, establishing temporal precedence."
+      },
+      {
+        "principle": "Legislative Intent & Modernization Policy",
+        "description": "The 2014 law's legislative history (published in Official Gazette 12/2014) explicitly references modernization of business environment and alignment with OECD principles on corporate governance. Single-member LLC authorization reflects deliberate policy shift to encourage SME formation and foreign direct investment."
+      },
+      {
+        "principle": "Systematic Interpretation & Regulatory Consistency",
+        "description": "MOCI regulatory guidelines (Circular 5/2015) and QFC regulations both reference Law 7/2014 as the primary LLC framework. Applying Law 9/2002 would create regulatory fragmentation and contradict established administrative practice across 8+ years of implementation."
+      }
+    ],
+    "explanatoryNote": "The contradiction between Law 7/2014 Article 215 and Law 9/2002 Article 89 creates legal uncertainty for limited liability company formation in Qatar. Analysis of legislative chronology, regulatory practice, and policy objectives supports the application of Law 7/2014 as the controlling statute.\n\nKey rationale:\n\n1. **Temporal Precedence**: Law 7/2014 post-dates Law 9/2002 by 12 years, establishing lex posterior priority.\n\n2. **Explicit Modernization Intent**: The 2014 law was enacted specifically to modernize Qatar's commercial framework in preparation for economic diversification. Parliamentary debates (Shura Council Session 42, May 2014) confirm intentional expansion of LLC eligibility to single members.\n\n3. **International Alignment**: Single-member LLCs are permitted in UAE, Saudi Arabia, Bahrain, Kuwait, and Oman under recent GCC harmonization efforts. Qatar's 2014 law aligns with this regional trend.\n\n4. **Regulatory Practice**: MOCI has accepted and registered 300+ single-member LLCs since 2015 under Law 7/2014, creating legitimate expectations and administrative precedent.\n\n5. **Capital Requirements**: The higher minimum capital (QAR 200,000) in the 2014 law provides superior creditor protection, particularly relevant given Qatar's position as regional financial hub.\n\n**Recommended Resolution**: Law 7/2014 should be applied. To eliminate ambiguity, MOCI should issue an administrative circular explicitly confirming that Law 7/2014 supersedes Law 9/2002 for all LLC formations post-July 2014, and the Shura Council should consider formal amendment to insert express repeal language in Law 7/2014.",
+    "implementationSteps": [
+      "Issue MOCI Administrative Circular (within 30 days) confirming Law 7/2014 as exclusive framework for LLC formation, explicitly stating that Law 9/2002 Article 89 is superseded.",
+      "Update MOCI online registration portal and printed application forms to reference only Law 7/2014 requirements (single-member allowed, QAR 200,000 minimum capital).",
+      "Conduct training workshops for MOCI registration officers (2 sessions, 60 participants) on correct application of 2014 law and handling legacy cases.",
+      "Notify Qatar Chamber of Commerce, law firms, and business advisory firms via official letter regarding clarified legal position.",
+      "Publish FAQ document (Arabic/English) on MOCI website addressing common questions about single-member LLCs and capital requirements.",
+      "Propose legislative amendment to Shura Council for next session to insert express repeal clause in Law 7/2014: 'Article [X]: Law No. 9/2002 Articles 89-95 are hereby repealed.'"
+    ],
+    "alternativeApproach": "If immediate legislative amendment is not feasible, request Supreme Judicial Council to issue an interpretive ruling (fatwa tashri'iyya) clarifying that Law 7/2014 governs LLCs and implicitly repealed conflicting provisions of Law 9/2002. Such rulings carry persuasive authority in Qatari courts and provide interim legal certainty pending formal legislative action."
+  },
+  "annotations": [
+    {
+      "id": "ann-1",
+      "userId": "2",
+      "userName": "Fatima Al-Thani",
+      "userRole": "Legal Analyst",
+      "content": "Confirmed with MOCI Legal Department - they have been applying Law 7/2014 exclusively since 2015. Recommend prioritizing administrative circular over legislative amendment for faster resolution.",
+      "timestamp": "2024-01-16T10:15:00Z",
+      "articleId": "art-1-1"
+    },
+    {
+      "id": "ann-2",
+      "userId": "2",
+      "userName": "Fatima Al-Thani",
+      "userRole": "Legal Analyst",
+      "content": "Need to verify if QFC regulations contain similar provisions that might create additional complexity.",
+      "timestamp": "2024-01-16T14:30:00Z"
+    }
+  ],
+  "auditLog": [
+    {
+      "id": "log-1",
+      "userId": "system",
+      "userName": "AI Detection System",
+      "action": "created",
+      "timestamp": "2024-01-15T08:30:00Z",
+      "details": "Case automatically flagged by contradiction detection algorithm (confidence: 87%)"
+    },
+    {
+      "id": "log-2",
+      "userId": "1",
+      "userName": "Ahmed Al-Kuwari",
+      "action": "assigned",
+      "timestamp": "2024-01-15T09:45:00Z",
+      "details": "Assigned to Fatima Al-Thani for review"
+    },
+    {
+      "id": "log-3",
+      "userId": "2",
+      "userName": "Fatima Al-Thani",
+      "action": "viewed",
+      "timestamp": "2024-01-16T08:00:00Z",
+      "details": "Case opened for detailed analysis"
+    },
+    {
+      "id": "log-4",
+      "userId": "2",
+      "userName": "Fatima Al-Thani",
+      "action": "commented",
+      "timestamp": "2024-01-16T10:15:00Z",
+      "details": "Added annotation regarding MOCI practice"
+    },
+    {
+      "id": "log-5",
+      "userId": "2",
+      "userName": "Fatima Al-Thani",
+      "action": "status_changed",
+      "timestamp": "2024-01-16T15:00:00Z",
+      "details": "Status changed from 'new' to 'under_review'"
+    }
+  ]
+}
