@@ -236,6 +236,24 @@ Recommended Resolution: Parliament should enact clarifying amendment explicitly 
     setTimeout(() => navigate('/cases'), 1500);
   };
 
+  const getCaseTypeColor = (type: string) => {
+    switch (type) {
+      case 'contradiction': return 'destructive';
+      case 'overlap': return 'default';
+      case 'gap': return 'secondary';
+      default: return 'outline';
+    }
+  };
+
+  const getSeverityColor = (severity?: string) => {
+    switch (severity) {
+      case 'high': return 'destructive';
+      case 'medium': return 'default';
+      case 'low': return 'secondary';
+      default: return 'outline';
+    }
+  };
+
   if (!case_) return <div className="flex items-center justify-center min-h-[400px]"><AlertCircle className="h-12 w-12 text-destructive" /><h2>{t('caseNotFound', language)}</h2></div>;
 
   return (
@@ -322,10 +340,10 @@ Recommended Resolution: Parliament should enact clarifying amendment explicitly 
                 <Badge variant={
                   case_?.status === 'new' ? 'secondary' :
                   case_?.status === 'under_review' ? 'default' :
-                  case_?.status === 'validated' ? 'success' :
+                  case_?.status === 'validated' ? 'default' :
                   'destructive'
                 } className="w-fit">
-                  {formatStatus(case_?.status || 'new')}
+                  {t(case_?.status as any, language)}
                 </Badge>
               </div>
             </div>
@@ -359,39 +377,31 @@ Recommended Resolution: Parliament should enact clarifying amendment explicitly 
 
       <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
         <CardHeader className="border-b bg-muted/30 rounded-t-lg">
-          <CardTitle>{t('documentsInvolved', language)}</CardTitle>
+          <CardTitle>{t('lawComparison', language)}</CardTitle>
         </CardHeader>
         <CardContent>
-          <ComparisonPanel leftDocument={leftDocument} rightDocument={rightDocument} />
+          <div className="grid lg:grid-cols-2 gap-6">
+            <ComparisonPanel
+              document={leftDocument}
+              highlightedArticles={['15']}
+              side="left"
+              isRTL={isRTL}
+            />
+            <ComparisonPanel
+              document={rightDocument}
+              highlightedArticles={['22']}
+              side="right"
+              isRTL={isRTL}
+            />
+          </div>
         </CardContent>
       </Card>
 
-      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
-        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
-          <CardTitle>{t('aiAnalysis', language)}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <AIAnalysisSection aiAnalysis={aiAnalysis} />
-        </CardContent>
-      </Card>
+      <AIAnalysisSection analysis={aiAnalysis} isRTL={isRTL} />
 
-      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
-        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
-          <CardTitle>{t('impactAnalysis', language)}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ImpactAnalysisSection impactAnalysis={impactAnalysis} />
-        </CardContent>
-      </Card>
+      <ImpactAnalysisSection impact={impactAnalysis} isRTL={isRTL} />
 
-      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
-        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
-          <CardTitle>{t('recommendationSection', language)}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <RecommendationSection recommendationData={recommendationData} />
-        </CardContent>
-      </Card>
+      <RecommendationSection recommendation={recommendationData} isRTL={isRTL} />
 
       <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
         <CardHeader className="border-b bg-muted/30 rounded-t-lg">
@@ -401,7 +411,7 @@ Recommended Resolution: Parliament should enact clarifying amendment explicitly 
           </div>
         </CardHeader>
         <CardContent>
-          <AnnotationSection comments={comments} onAddComment={handleAddComment} />
+          <AnnotationSection caseId={caseId || ''} comments={comments} onAddComment={handleAddComment} isRTL={isRTL} />
         </CardContent>
       </Card>
 
