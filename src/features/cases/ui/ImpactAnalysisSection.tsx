@@ -28,9 +28,10 @@ interface ImpactData {
 
 interface ImpactAnalysisSectionProps {
   impact: ImpactData;
+  isRTL?: boolean;
 }
 
-export function ImpactAnalysisSection({ impact }: ImpactAnalysisSectionProps) {
+export function ImpactAnalysisSection({ impact, isRTL = false }: ImpactAnalysisSectionProps) {
   const getImpactColor = (level: string) => {
     switch (level) {
       case 'high':
@@ -58,11 +59,11 @@ export function ImpactAnalysisSection({ impact }: ImpactAnalysisSectionProps) {
   };
 
   return (
-    <Card className="border-warning/30">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <Card className="border-warning/30 shadow-elegant">
+      <CardHeader className="border-b bg-warning/5 rounded-t-lg">
+        <CardTitle className={`flex items-center gap-3 text-xl ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
           <AlertCircle className="h-5 w-5 text-warning" />
-          Impact Analysis & Risk Assessment
+          {isRTL ? 'تحليل التأثير وتقييم المخاطر' : 'Impact Analysis & Risk Assessment'}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
