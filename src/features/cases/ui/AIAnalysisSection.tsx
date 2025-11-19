@@ -42,7 +42,7 @@ export function AIAnalysisSection({ analysis, isRTL = false }: AIAnalysisSection
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Detection Metrics */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-6">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium">Overall Confidence</span>
@@ -58,15 +58,6 @@ export function AIAnalysisSection({ analysis, isRTL = false }: AIAnalysisSection
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Text Similarity</span>
-              <span className="text-sm font-bold">{analysis.textSimilarity}%</span>
-            </div>
-            <Progress value={analysis.textSimilarity} className="h-2" />
-            <p className="text-xs text-muted-foreground">Lexical overlap between provisions</p>
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
               <span className="text-sm font-medium">Semantic Overlap</span>
               <span className="text-sm font-bold">{analysis.semanticOverlap}%</span>
             </div>
@@ -77,49 +68,45 @@ export function AIAnalysisSection({ analysis, isRTL = false }: AIAnalysisSection
 
         <Separator />
 
-        {/* Detection Method */}
-        <div>
-          <h4 className="text-sm font-semibold mb-2">Detection Method</h4>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline">{analysis.detectionMethod}</Badge>
-            {analysis.logicalInconsistency && (
-              <Badge variant="destructive" className="gap-1">
-                <AlertTriangle className="h-3 w-3" />
-                Logical Inconsistency Detected
-              </Badge>
-            )}
-          </div>
-        </div>
-
-        <Separator />
-
-        {/* Key Findings */}
+        {/* Key Findings Table */}
         <div>
           <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
             <TrendingUp className="h-4 w-4" />
             Key Findings
           </h4>
-          <ul className="space-y-2">
-            {analysis.keyFindings.map((finding, index) => (
-              <li key={index} className="flex items-start gap-2 text-sm">
-                <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                <span>{finding}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <Separator />
-
-        {/* Legal Principles */}
-        <div>
-          <h4 className="text-sm font-semibold mb-3">Applied Legal Principles</h4>
-          <div className="flex flex-wrap gap-2">
-            {analysis.legalPrinciples.map((principle, index) => (
-              <Badge key={index} variant="secondary" className="font-normal">
-                {principle}
-              </Badge>
-            ))}
+          <div className="rounded-lg border overflow-hidden">
+            <table className="w-full">
+              <thead className="bg-muted/50">
+                <tr>
+                  <th className="px-4 py-2 text-left text-xs font-medium">Column 1</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium">Column 2</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium">Column 3</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium">Column 4</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium">Column 5</th>
+                </tr>
+              </thead>
+              <tbody>
+                {analysis.keyFindings.map((finding, index) => {
+                  const parts = finding.split(':');
+                  const mainText = parts[0];
+                  const description = parts[1] || '';
+                  
+                  return (
+                    <tr key={index} className="border-t">
+                      <td className="px-4 py-3 text-sm">{index + 1}</td>
+                      <td className="px-4 py-3 text-sm font-medium">{mainText}</td>
+                      <td className="px-4 py-3 text-sm">{description}</td>
+                      <td className="px-4 py-3 text-sm">
+                        <Badge variant="outline" className="text-xs">Detected</Badge>
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        <CheckCircle2 className="h-4 w-4 text-success" />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
       </CardContent>

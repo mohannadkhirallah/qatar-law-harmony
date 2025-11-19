@@ -375,28 +375,6 @@ Recommended Resolution: Parliament should enact clarifying amendment explicitly 
         </CardContent>
       </Card>
 
-      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
-        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
-          <CardTitle>{t('lawComparison', language)}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid lg:grid-cols-2 gap-6">
-            <ComparisonPanel
-              document={leftDocument}
-              highlightedArticles={['15']}
-              side="left"
-              isRTL={isRTL}
-            />
-            <ComparisonPanel
-              document={rightDocument}
-              highlightedArticles={['22']}
-              side="right"
-              isRTL={isRTL}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
       <AIAnalysisSection analysis={aiAnalysis} isRTL={isRTL} />
 
       <ImpactAnalysisSection impact={impactAnalysis} isRTL={isRTL} />
