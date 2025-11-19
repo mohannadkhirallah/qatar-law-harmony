@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { mockCases } from '@/shared/data/mockData';
 import { CaseFilters } from '@/features/cases/ui/CaseFilters';
 import { CaseTable } from '@/features/cases/ui/CaseTable';
+import { AddCaseDialog } from '@/features/cases/ui/AddCaseDialog';
 import { CaseType, CaseStatus } from '@/core/domain/entities/Case';
 import {
   Pagination,
@@ -98,6 +99,7 @@ export default function Cases() {
           )}
         </div>
         <div className="flex gap-2">
+          <AddCaseDialog />
           <Button variant="outline" onClick={handleExport}>
             <Download className="mr-2 h-4 w-4" />
             Export
