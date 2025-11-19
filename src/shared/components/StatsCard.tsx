@@ -12,9 +12,10 @@ interface StatsCardProps {
     isPositive: boolean;
   };
   variant?: 'default' | 'primary' | 'success' | 'warning' | 'destructive';
+  isRTL?: boolean;
 }
 
-export function StatsCard({ title, value, description, icon: Icon, trend, variant = 'default' }: StatsCardProps) {
+export function StatsCard({ title, value, description, icon: Icon, trend, variant = 'default', isRTL = false }: StatsCardProps) {
   const variantClasses = {
     default: 'border-border',
     primary: 'border-primary/20 bg-primary/5',
@@ -34,13 +35,13 @@ export function StatsCard({ title, value, description, icon: Icon, trend, varian
   return (
     <Card className={cn('transition-all hover:shadow-md', variantClasses[variant])}>
       <CardContent className="p-6">
-        <div className="flex items-start justify-between">
-          <div className="space-y-2">
+        <div className={`flex items-start justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`space-y-2 ${isRTL ? 'text-right' : ''}`}>
             <p className="text-sm font-medium text-muted-foreground">{title}</p>
             <p className="text-3xl font-bold">{value}</p>
             {description && <p className="text-xs text-muted-foreground">{description}</p>}
             {trend && (
-              <div className={cn('flex items-center gap-1 text-xs font-medium', trend.isPositive ? 'text-success' : 'text-destructive')}>
+              <div className={cn('flex items-center gap-1 text-xs font-medium', trend.isPositive ? 'text-success' : 'text-destructive', isRTL ? 'flex-row-reverse' : '')}>
                 <span>{trend.isPositive ? '↑' : '↓'}</span>
                 <span>{Math.abs(trend.value)}%</span>
               </div>
