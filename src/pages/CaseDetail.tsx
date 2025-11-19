@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, AlertCircle, FileText, History, CheckCircle, XCircle, Download, Globe } from 'lucide-react';
+import { ArrowLeft, AlertCircle, FileText, History, CheckCircle, XCircle, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -30,25 +30,17 @@ import { RecommendationSection } from '@/features/cases/ui/RecommendationSection
 import { mockCases } from '@/shared/data/mockData';
 import { CaseStatus } from '@/core/domain/entities/Case';
 import { toast } from 'sonner';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { t } from '@/utils/translations';
 
 export default function CaseDetail() {
   const { caseId } = useParams();
   const navigate = useNavigate();
-  
+  const { language, isRTL } = useLanguage();
   const case_ = mockCases.find(c => c.id === caseId);
-  
-  const [isRTL, setIsRTL] = useState(false);
   const [recommendation, setRecommendation] = useState(case_?.recommendationText || '');
   const [decision, setDecision] = useState<'validate' | 'reject' | ''>('');
-  const [comments, setComments] = useState([
-    {
-      id: '1',
-      author: 'Ahmed Al-Mansoori',
-      role: 'Legal Analyst',
-      text: 'Initial review shows clear contradiction between Article 15 and Article 22. The temporal precedence suggests Law 7/2014 should take priority.',
-      timestamp: new Date(2024, 0, 15, 10, 30),
-    },
-  ]);
+  const [comments, setComments] = useState([{ id: '1', author: 'Ahmed Al-Mansoori', role: 'Legal Analyst', text: 'Initial review shows clear contradiction.', timestamp: new Date(2024, 0, 15, 10, 30) }]);
 
   // AI Analysis Data
   const aiAnalysis = {
@@ -185,20 +177,9 @@ Recommended Resolution: Parliament should enact clarifying amendment explicitly 
     alternativeApproach: 'If immediate legislative amendment is impractical, a Supreme Judicial Council interpretive ruling could provide binding clarification across all courts, establishing Law 7/2014 precedence pending formal legislative harmonization.',
   };
 
-  if (!case_) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <AlertCircle className="h-12 w-12 text-muted-foreground mb-4" />
-        <h2 className="text-2xl font-semibold mb-2">Case Not Found</h2>
-        <p className="text-muted-foreground mb-4">The requested case could not be found.</p>
-        <Button onClick={() => navigate('/cases')}>Back to Cases</Button>
-      </div>
-    );
-  }
-
   // Mock document data for comparison
   const leftDocument = {
-    id: case_.documentIds[0],
+    id: case_?.documentIds[0],
     lawNumber: '7',
     year: 2014,
     title: 'Commercial Companies Law',
@@ -221,7 +202,7 @@ Recommended Resolution: Parliament should enact clarifying amendment explicitly 
   };
 
   const rightDocument = {
-    id: case_.documentIds[1] || case_.documentIds[0],
+    id: case_?.documentIds[1] || case_?.documentIds[0],
     lawNumber: '9',
     year: 2002,
     title: 'Business Registration Act',
@@ -244,220 +225,217 @@ Recommended Resolution: Parliament should enact clarifying amendment explicitly 
   };
 
   const handleAddComment = (text: string) => {
-    const newComment = {
-      id: Date.now().toString(),
-      author: 'Current User',
-      role: 'Legal Analyst',
-      text,
-      timestamp: new Date(),
-    };
-    setComments([...comments, newComment]);
-    toast.success('Comment added successfully');
+    setComments([...comments, { id: Date.now().toString(), author: 'Current User', role: 'Legal Analyst', text, timestamp: new Date() }]);
+    toast.success('Comment added');
   };
 
   const handleSubmitDecision = () => {
-    if (!decision) {
-      toast.error('Please select a decision');
-      return;
-    }
-    if (!recommendation.trim()) {
-      toast.error('Please provide a recommendation');
-      return;
-    }
-
+    if (!decision) { toast.error(t('selectDecision', language)); return; }
+    if (!recommendation.trim()) { toast.error(t('provideRecommendation', language)); return; }
     toast.success(`Case ${decision === 'validate' ? 'validated' : 'rejected'} successfully`);
     setTimeout(() => navigate('/cases'), 1500);
   };
 
-  const getCaseTypeColor = (type: string) => {
-    switch (type) {
-      case 'contradiction':
-        return 'destructive';
-      case 'overlap':
-        return 'default';
-      case 'gap':
-        return 'secondary';
-      default:
-        return 'outline';
-    }
-  };
-
-  const getSeverityColor = (severity?: string) => {
-    switch (severity) {
-      case 'high':
-        return 'destructive';
-      case 'medium':
-        return 'default';
-      case 'low':
-        return 'secondary';
-      default:
-        return 'outline';
-    }
-  };
-
-  const formatStatus = (status: CaseStatus) => {
-    return status.split('_').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
-  };
+  if (!case_) return <div className="flex items-center justify-center min-h-[400px]"><AlertCircle className="h-12 w-12 text-destructive" /><h2>{t('caseNotFound', language)}</h2></div>;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/cases">Cases</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Case #{case_.id}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
-
-      <div className="flex items-center justify-between">
-        <Button variant="ghost" onClick={() => navigate('/cases')}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Cases
-        </Button>
-        <Button variant="outline">
-          <Download className="mr-2 h-4 w-4" />
-          Export Analysis Report (PDF)
-        </Button>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <div className="flex items-start justify-between">
-            <div className="space-y-2">
-              <CardTitle className="text-2xl">
-                Case #{case_.id} – {case_.caseType.charAt(0).toUpperCase() + case_.caseType.slice(1)} Analysis
-              </CardTitle>
-              <div className="flex items-center gap-2">
-                <Badge variant={getCaseTypeColor(case_.caseType)}>
-                  {case_.caseType.replace('_', ' ')}
+    <div className={`space-y-8 ${isRTL ? 'rtl' : 'ltr'}`}>
+      <Breadcrumb><BreadcrumbList className={isRTL ? 'flex-row-reverse' : ''}><BreadcrumbItem><BreadcrumbLink onClick={() => navigate('/cases')}>{t('cases', language)}</BreadcrumbLink></BreadcrumbItem><BreadcrumbSeparator /><BreadcrumbItem><BreadcrumbPage>{language === 'ar' ? `الحالة #${caseId}` : `Case #${caseId}`}</BreadcrumbPage></BreadcrumbItem></BreadcrumbList></Breadcrumb>
+      
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-subtle border border-border shadow-elegant">
+        <div className="absolute inset-0 bg-primary/5" />
+        <div className="relative px-8 py-10">
+          <div className="flex items-start justify-between gap-6">
+            <div className={`flex-1 space-y-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+              <div className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={() => navigate('/cases')}
+                  className="rounded-full hover:bg-primary/10 transition-colors"
+                >
+                  <ArrowLeft className={`h-5 w-5 ${isRTL ? 'rotate-180' : ''}`} />
+                </Button>
+                <div className="flex-1 space-y-2">
+                  <h1 className="text-4xl font-bold tracking-tight text-foreground">
+                    {language === 'ar' ? `الحالة #${caseId} – مراجعة التناقض` : `Case #${caseId} – Contradiction Review`}
+                  </h1>
+                  <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
+                    {language === 'ar'
+                      ? 'تحليل ومقارنة تفصيلية للتناقضات القانونية المُبلغ عنها' 
+                      : 'Comprehensive analysis and comparison of flagged legal contradictions'}
+                  </p>
+                </div>
+              </div>
+              
+              <div className={`flex flex-wrap gap-3 ${isRTL ? 'justify-end' : 'justify-start'}`}>
+                <Badge variant="outline" className="text-sm px-3 py-1">
+                  <FileText className={`h-3 w-3 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+                  {t(case_?.caseType as any, language)}
                 </Badge>
-                <Badge variant="outline">
-                  {formatStatus(case_.status)}
+                <Badge 
+                  variant={
+                    case_?.status === 'validated' ? 'default' : 
+                    case_?.status === 'rejected' ? 'destructive' : 
+                    'secondary'
+                  }
+                  className="text-sm px-3 py-1"
+                >
+                  {t(case_?.status as any, language)}
                 </Badge>
-                {case_.severity && (
-                  <Badge variant={getSeverityColor(case_.severity)}>
-                    {case_.severity} severity
+                {case_?.severity && (
+                  <Badge 
+                    variant={case_?.severity === 'high' ? 'destructive' : case_?.severity === 'medium' ? 'default' : 'secondary'}
+                    className="text-sm px-3 py-1"
+                  >
+                    {t(case_?.severity as any, language)} {language === 'en' ? t('severity', language) : ''}
                   </Badge>
                 )}
               </div>
             </div>
-            <AlertCircle className="h-8 w-8 text-destructive" />
+            
+            <div className={`flex gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <Button variant="outline" className="gap-2 shadow-sm">
+                <Download className="h-4 w-4" />
+                {t('exportPDF', language)}
+              </Button>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
+        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
+          <CardTitle>{t('caseSummary', language)}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Flagged By</p>
-              <p className="text-sm">{case_.flaggedBy}</p>
+        <CardContent>
+          <div className="grid gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label>{t('caseType', language)}</Label>
+                <Badge variant={getCaseTypeColor(case_?.caseType || '')} className="w-fit">
+                  {t(case_?.caseType as any, language)}
+                </Badge>
+              </div>
+              <div>
+                <Label>{t('status', language)}</Label>
+                <Badge variant={
+                  case_?.status === 'new' ? 'secondary' :
+                  case_?.status === 'under_review' ? 'default' :
+                  case_?.status === 'validated' ? 'success' :
+                  'destructive'
+                } className="w-fit">
+                  {formatStatus(case_?.status || 'new')}
+                </Badge>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Flagged Date</p>
-              <p className="text-sm">{case_.flaggedDate.toLocaleDateString()}</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label>{t('flaggedBy', language)}</Label>
+                <p className="text-sm font-medium">{case_?.flaggedBy || t('unassigned', language)}</p>
+              </div>
+              <div>
+                <Label>{t('flaggedDate', language)}</Label>
+                <p className="text-sm font-medium">{case_?.flaggedDate?.toLocaleDateString()}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Assigned To</p>
-              <p className="text-sm">
-                {case_.assignedTo ? `Reviewer #${case_.assignedTo}` : 'Unassigned'}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Documents Involved</p>
-              <p className="text-sm">{case_.documentIds.join(', ')}</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label>{t('severity', language)}</Label>
+                <Badge variant={getSeverityColor(case_?.severity)} className="w-fit">
+                  {t(case_?.severity as any, language)}
+                </Badge>
+              </div>
+              <div>
+                <Label>{t('assignedTo', language)}</Label>
+                <p className="text-sm font-medium">{case_?.assignedTo || t('unassigned', language)}</p>
+              </div>
             </div>
           </div>
-          
-          {case_.status === CaseStatus.VALIDATED && case_.validatedBy && (
-            <>
-              <Separator />
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <History className="h-4 w-4" />
-                <span>Validated by {case_.validatedBy} on {case_.validationDate?.toLocaleDateString()}</span>
-              </div>
-            </>
-          )}
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-2 gap-6">
-        <ComparisonPanel
-          document={leftDocument}
-          highlightedArticles={['15']}
-          side="left"
-        />
-        <ComparisonPanel
-          document={rightDocument}
-          highlightedArticles={['22']}
-          side="right"
-        />
-      </div>
+      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
+        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
+          <CardTitle>{t('documentsInvolved', language)}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ComparisonPanel leftDocument={leftDocument} rightDocument={rightDocument} />
+        </CardContent>
+      </Card>
 
-      <AIAnalysisSection analysis={aiAnalysis} />
+      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
+        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
+          <CardTitle>{t('aiAnalysis', language)}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <AIAnalysisSection aiAnalysis={aiAnalysis} />
+        </CardContent>
+      </Card>
 
-      <ImpactAnalysisSection impact={impactAnalysis} />
+      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
+        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
+          <CardTitle>{t('impactAnalysis', language)}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ImpactAnalysisSection impactAnalysis={impactAnalysis} />
+        </CardContent>
+      </Card>
 
-      <RecommendationSection recommendation={recommendationData} />
+      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
+        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
+          <CardTitle>{t('recommendationSection', language)}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <RecommendationSection recommendationData={recommendationData} />
+        </CardContent>
+      </Card>
 
-      <AnnotationSection
-        caseId={case_.id}
-        comments={comments}
-        onAddComment={handleAddComment}
-      />
+      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
+        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
+          <div className="flex justify-between items-center">
+            <CardTitle>{t('commentsAnnotations', language)}</CardTitle>
+            <History className="h-4 w-4 text-muted-foreground" />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <AnnotationSection comments={comments} onAddComment={handleAddComment} />
+        </CardContent>
+      </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Decision & Recommendation</CardTitle>
+      <Card className="shadow-elegant border-border/50 bg-card/50 backdrop-blur-sm">
+        <CardHeader className="border-b bg-muted/30 rounded-t-lg">
+          <CardTitle>{t('finalRecommendation', language)}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>Decision</Label>
-            <Select value={decision} onValueChange={(value: any) => setDecision(value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select decision" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="validate">Validate – Contradiction Confirmed</SelectItem>
-                <SelectItem value="reject">Reject – False Positive</SelectItem>
-              </SelectContent>
-            </Select>
+          <Textarea 
+            placeholder={t('provideRecommendation', language)}
+            value={recommendation}
+            onChange={(e) => setRecommendation(e.target.value)}
+          />
+
+          <Separator />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label>{t('decision', language)}</Label>
+              <Select onValueChange={(value) => setDecision(value as 'validate' | 'reject')}>
+                <SelectTrigger>
+                  <SelectValue placeholder={t('selectDecision', language)} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="validate">{t('validate', language)}</SelectItem>
+                  <SelectItem value="reject">{t('reject', language)}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <Label>Recommendation</Label>
-            <Textarea
-              placeholder="Provide your detailed recommendation for resolving this contradiction..."
-              value={recommendation}
-              onChange={(e) => setRecommendation(e.target.value)}
-              rows={6}
-              className="resize-none"
-            />
-          </div>
-
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => navigate('/cases')}>
-              Cancel
-            </Button>
-            <Button onClick={handleSubmitDecision} disabled={!decision || !recommendation.trim()}>
-              {decision === 'validate' ? (
-                <>
-                  <CheckCircle className="mr-2 h-4 w-4" />
-                  Validate Case
-                </>
-              ) : (
-                <>
-                  <XCircle className="mr-2 h-4 w-4" />
-                  Reject Case
-                </>
-              )}
-            </Button>
-          </div>
+          <Button onClick={handleSubmitDecision} className="w-full">
+            {t('submitDecision', language)}
+          </Button>
         </CardContent>
       </Card>
     </div>
