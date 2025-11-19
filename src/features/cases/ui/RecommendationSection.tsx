@@ -22,15 +22,16 @@ interface RecommendationData {
 
 interface RecommendationSectionProps {
   recommendation: RecommendationData;
+  isRTL?: boolean;
 }
 
-export function RecommendationSection({ recommendation }: RecommendationSectionProps) {
+export function RecommendationSection({ recommendation, isRTL = false }: RecommendationSectionProps) {
   return (
-    <Card className="border-success/30 bg-success/5">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <Card className="border-success/30 bg-success/5 shadow-elegant">
+      <CardHeader className="border-b bg-success/10 rounded-t-lg">
+        <CardTitle className={`flex items-center gap-3 text-xl ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
           <Lightbulb className="h-5 w-5 text-success" />
-          AI-Generated Recommendation
+          {isRTL ? 'التوصية المُنشأة بالذكاء الاصطناعي' : 'AI-Generated Recommendation'}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">

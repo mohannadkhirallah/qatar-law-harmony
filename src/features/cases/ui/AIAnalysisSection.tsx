@@ -16,9 +16,10 @@ interface AIAnalysisData {
 
 interface AIAnalysisSectionProps {
   analysis: AIAnalysisData;
+  isRTL?: boolean;
 }
 
-export function AIAnalysisSection({ analysis }: AIAnalysisSectionProps) {
+export function AIAnalysisSection({ analysis, isRTL = false }: AIAnalysisSectionProps) {
   const getConfidenceColor = (score: number) => {
     if (score >= 80) return 'text-success';
     if (score >= 60) return 'text-warning';
@@ -32,11 +33,11 @@ export function AIAnalysisSection({ analysis }: AIAnalysisSectionProps) {
   };
 
   return (
-    <Card className="border-primary/30 bg-gradient-subtle">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <Card className="border-primary/30 bg-gradient-subtle shadow-elegant">
+      <CardHeader className="border-b bg-primary/5 rounded-t-lg">
+        <CardTitle className={`flex items-center gap-3 text-xl ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
           <Brain className="h-5 w-5 text-primary" />
-          AI-Powered Contradiction Analysis
+          {isRTL ? 'تحليل التناقضات بالذكاء الاصطناعي' : 'AI-Powered Contradiction Analysis'}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">

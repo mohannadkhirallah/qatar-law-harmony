@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, AlertCircle, FileText, History, CheckCircle, XCircle, Download } from 'lucide-react';
+import { ArrowLeft, AlertCircle, FileText, History, CheckCircle, XCircle, Download, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,6 +37,7 @@ export default function CaseDetail() {
   
   const case_ = mockCases.find(c => c.id === caseId);
   
+  const [isRTL, setIsRTL] = useState(false);
   const [recommendation, setRecommendation] = useState(case_?.recommendationText || '');
   const [decision, setDecision] = useState<'validate' | 'reject' | ''>('');
   const [comments, setComments] = useState([

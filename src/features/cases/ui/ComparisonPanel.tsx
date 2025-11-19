@@ -29,9 +29,10 @@ interface ComparisonPanelProps {
   document: DocumentData;
   highlightedArticles: string[];
   side: 'left' | 'right';
+  isRTL?: boolean;
 }
 
-export function ComparisonPanel({ document, highlightedArticles, side }: ComparisonPanelProps) {
+export function ComparisonPanel({ document, highlightedArticles, side, isRTL = false }: ComparisonPanelProps) {
   const [expandedArticles, setExpandedArticles] = useState<string[]>(highlightedArticles);
 
   const toggleArticle = (articleNumber: string) => {
@@ -43,19 +44,19 @@ export function ComparisonPanel({ document, highlightedArticles, side }: Compari
   };
 
   return (
-    <Card className="h-full">
-      <CardHeader className="border-b bg-muted/30">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <CardTitle className="text-lg">
-              Law {document.lawNumber}/{document.year}
+    <Card className="h-full shadow-elegant border-border/50">
+      <CardHeader className="border-b bg-muted/30 rounded-t-lg">
+        <div className={`flex items-start justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`space-y-2 ${isRTL ? 'text-right' : ''}`}>
+            <CardTitle className="text-lg font-bold">
+              {isRTL ? `القانون ${document.lawNumber}/${document.year}` : `Law ${document.lawNumber}/${document.year}`}
             </CardTitle>
-            <p className="text-sm text-muted-foreground">{document.title}</p>
-            <Badge variant="outline" className="mt-1">
+            <p className="text-sm text-muted-foreground leading-relaxed">{document.title}</p>
+            <Badge variant="outline" className="mt-1 text-xs">
               {document.jurisdiction}
             </Badge>
           </div>
-          <FileText className="h-5 w-5 text-muted-foreground" />
+          <FileText className="h-5 w-5 text-muted-foreground flex-shrink-0" />
         </div>
       </CardHeader>
       <CardContent className="p-0">

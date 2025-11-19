@@ -19,9 +19,10 @@ interface AnnotationSectionProps {
   caseId: string;
   comments: Comment[];
   onAddComment: (text: string) => void;
+  isRTL?: boolean;
 }
 
-export function AnnotationSection({ caseId, comments, onAddComment }: AnnotationSectionProps) {
+export function AnnotationSection({ caseId, comments, onAddComment, isRTL = false }: AnnotationSectionProps) {
   const [newComment, setNewComment] = useState('');
 
   const handleSubmit = () => {
@@ -32,11 +33,11 @@ export function AnnotationSection({ caseId, comments, onAddComment }: Annotation
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <MessageSquare className="h-5 w-5" />
-          Comments & Annotations
+    <Card className="shadow-elegant border-border/50">
+      <CardHeader className="border-b bg-muted/30 rounded-t-lg">
+        <CardTitle className={`flex items-center gap-3 text-xl ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
+          <MessageSquare className="h-5 w-5 text-primary" />
+          {isRTL ? 'التعليقات والملاحظات' : 'Comments & Annotations'}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
