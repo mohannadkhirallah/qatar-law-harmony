@@ -1,5 +1,7 @@
 import { LayoutDashboard, FileText, Upload, AlertCircle, FileStack, Settings, Users, HelpCircle, Globe } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { t } from '@/utils/translations';
 import {
   Sidebar,
   SidebarContent,
@@ -31,12 +33,17 @@ const helpItems = [
 
 export function AppSidebar() {
   const { state } = useSidebar();
+  const { language, isRTL } = useLanguage();
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
   const isCollapsed = state === 'collapsed';
 
   return (
-    <Sidebar className={isCollapsed ? 'w-16' : 'w-64'} collapsible="icon">
+    <Sidebar 
+      className={isCollapsed ? 'w-16' : 'w-64'} 
+      collapsible="icon"
+      side={isRTL ? 'right' : 'left'}
+    >
       <SidebarContent>
         <div className="flex items-center gap-3 px-4 py-6">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sidebar-primary">
@@ -51,15 +58,15 @@ export function AppSidebar() {
         </div>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-foreground/70">Main Menu</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sidebar-foreground/70">{t('mainMenu', language)}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {mainItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                    <NavLink to={item.url} className="flex items-center gap-3">
+                    <NavLink to={item.url} className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                       <item.icon className="h-5 w-5" />
-                      {!isCollapsed && <span>{item.title}</span>}
+                      {!isCollapsed && <span>{language === 'ar' ? item.titleAr : item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -69,15 +76,15 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-foreground/70">Administration</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sidebar-foreground/70">{t('administration', language)}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {adminItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                    <NavLink to={item.url} className="flex items-center gap-3">
+                    <NavLink to={item.url} className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                       <item.icon className="h-5 w-5" />
-                      {!isCollapsed && <span>{item.title}</span>}
+                      {!isCollapsed && <span>{language === 'ar' ? item.titleAr : item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -92,9 +99,9 @@ export function AppSidebar() {
               {helpItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                    <NavLink to={item.url} className="flex items-center gap-3">
+                    <NavLink to={item.url} className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                       <item.icon className="h-5 w-5" />
-                      {!isCollapsed && <span>{item.title}</span>}
+                      {!isCollapsed && <span>{language === 'ar' ? item.titleAr : item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

@@ -1,6 +1,7 @@
 type TranslationKey = 
   // Navigation
   | 'dashboard' | 'documents' | 'upload' | 'cases' | 'subjects' | 'settings' | 'help'
+  | 'mainMenu' | 'administration'
   // Common
   | 'search' | 'filter' | 'export' | 'add' | 'edit' | 'delete' | 'save' | 'cancel' | 'submit'
   | 'back' | 'next' | 'previous' | 'loading' | 'error' | 'success'
@@ -34,6 +35,8 @@ export const translations: Record<TranslationKey, { en: string; ar: string }> = 
   subjects: { en: 'Subjects', ar: 'الموضوعات' },
   settings: { en: 'Settings', ar: 'الإعدادات' },
   help: { en: 'Help', ar: 'المساعدة' },
+  mainMenu: { en: 'Main Menu', ar: 'القائمة الرئيسية' },
+  administration: { en: 'Administration', ar: 'الإدارة' },
   
   // Common
   search: { en: 'Search', ar: 'بحث' },
